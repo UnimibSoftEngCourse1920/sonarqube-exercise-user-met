@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
  * @since 4.7
  */
 public class Timeout implements TestRule {
-    private final long timeout;
+    private final long timeoutvar;
     private final TimeUnit timeUnit;
     private final boolean lookForStuckThread;
 
@@ -77,8 +77,8 @@ public class Timeout implements TestRule {
      * @param timeUnit the time unit for the {@code timeout}
      * @since 4.12
      */
-    public Timeout(long timeout, TimeUnit timeUnit) {
-        this.timeout = timeout;
+    public Timeout(long timeoutvar, TimeUnit timeUnit) {
+        this.timeoutvar = timeoutvar;
         this.timeUnit = timeUnit;
         lookForStuckThread = false;
     }
@@ -90,7 +90,7 @@ public class Timeout implements TestRule {
      * @since 4.12
      */
     protected Timeout(Builder builder) {
-        timeout = builder.getTimeout();
+        timeoutvar = builder.getTimeout();
         timeUnit = builder.getTimeUnit();
         lookForStuckThread = builder.getLookingForStuckThread();
     }
@@ -121,7 +121,7 @@ public class Timeout implements TestRule {
      * @since 4.12
      */
     protected final long getTimeout(TimeUnit unit) {
-        return unit.convert(timeout, timeUnit);
+        return unit.convert(timeoutvar, timeUnit);
     }
 
     /**
@@ -145,7 +145,7 @@ public class Timeout implements TestRule {
     protected Statement createFailOnTimeoutStatement(
             Statement statement) throws Exception {
         return FailOnTimeout.builder()
-            .withTimeout(timeout, timeUnit)
+            .withTimeout(timeoutvar, timeUnit)
             .withLookingForStuckThread(lookForStuckThread)
             .build(statement);
     }
@@ -169,7 +169,7 @@ public class Timeout implements TestRule {
      */
     public static class Builder {
         private boolean lookForStuckThread = false;
-        private long timeout = 0;
+        private long timeoutvar = 0;
         private TimeUnit timeUnit = TimeUnit.SECONDS;
 
         protected Builder() {
@@ -190,14 +190,14 @@ public class Timeout implements TestRule {
          * @param unit the time unit of the {@code timeout} argument
          * @return {@code this} for method chaining.
          */
-        public Builder withTimeout(long timeout, TimeUnit unit) {
-            this.timeout = timeout;
+        public Builder withTimeout(long timeoutvar, TimeUnit unit) {
+            this.timeoutvar = timeoutvar;
             this.timeUnit = unit;
             return this;
         }
 
         protected long getTimeout() {
-            return timeout;
+            return timeoutvar;
         }
 
         protected TimeUnit getTimeUnit()  {
