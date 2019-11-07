@@ -1,6 +1,6 @@
 package junit.extensions;
 
-import junit.framework.Assert;
+
 import junit.framework.Test;
 import junit.framework.TestResult;
 
@@ -10,7 +10,7 @@ import junit.framework.TestResult;
  * before or after a test is run.
  */
 @SuppressWarnings("deprecation")
-public class TestDecorator extends Assert implements Test {
+public class TestDecorator implements Test {
     protected Test fTest;
 
     public TestDecorator(Test test) {
